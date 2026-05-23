@@ -74,6 +74,24 @@
       padding: .6rem 2.5rem;
     }
 
+    .hero-logo {
+      position: relative;
+      width: clamp(280px, 60vw, 700px);
+      height: auto;
+      opacity: 0;
+      animation: fadeUp .7s .4s forwards;
+      filter: drop-shadow(0 0 40px rgba(255,16,16,.4));
+    }
+    .nav-logo-img {
+      height: 38px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 0 8px rgba(255,48,48,.5));
+      transition: filter .3s;
+    }
+    .nav-logo-img:hover {
+      filter: drop-shadow(0 0 14px rgba(255,48,48,.9));
+    }
     .nav-logo {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 1.6rem;
@@ -600,12 +618,20 @@
       overflow: hidden;
     }
 
+    /* DESPUÉS — agrega una clase especial para vertical */
     .video-card iframe,
     .video-card video {
       width: 100%;
       aspect-ratio: 16/9;
       display: block;
       border: none;
+    }
+
+    .video-card.vertical video {
+      aspect-ratio: 9/16;
+      max-height: 600px;
+      width: auto;
+      margin: 0 auto;
     }
 
     .video-placeholder {
@@ -884,7 +910,9 @@
 
   <!-- NAV -->
   <nav id="navbar">
-    <a class="nav-logo" href="#hero">LIBARDINO</a>
+    <a class="nav-logo" href="#hero">
+     <img src="logo.png" alt="Libardino" class="nav-logo-img" />
+    </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#historia" onclick="closeMenu()">Nosotros</a></li>
       <li><a href="#catalogo" onclick="closeMenu()">Catálogo</a></li>
@@ -901,8 +929,7 @@
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
     <div class="hero-tag">Cúcuta · Colombia · Desde las calles</div>
-    <h1 class="hero-title">LIBARDINO</h1>
-    <div class="hero-sub">Hombre de Dios</div>
+    <img src="logo.png" alt="Libardino" class="hero-logo" />
     <p class="hero-slogan">Ropa urbana con alma. Del barrio pa' el mundo.</p>
     <div class="hero-cta">
       <a href="#catalogo" class="btn btn-primary">Ver Catálogo</a>
@@ -982,21 +1009,22 @@
       <div class="section-label">Contenido</div>
       <h2 class="section-title">Vívelo en <span>video</span></h2>
       <div class="videos-grid">
-        <!-- VIDEO 1: reemplaza el src con tu link de YouTube embed -->
-        <div class="video-card">
-          <div class="video-placeholder" title="Agrega aquí tu video de YouTube">
-            <!-- <iframe src="https://www.youtube.com/embed/TU_VIDEO_ID" allowfullscreen></iframe> -->
-          </div>
-          <div class="video-title">Colección Primavera 2025</div>
+        <div class="video-card vertical">
+          <video controls playsinline>
+            <source src="coleccion.mp4" type="video/mp4">
+          </video>
+          <div class="video-title">Colección 2025</div>
         </div>
         <!-- VIDEO 2 -->
-        <div class="video-card">
-          <div class="video-placeholder"></div>
-          <div class="video-title">Behind the scenes — Cúcuta</div>
+        <div class="video-card vertical">
+          <video controls playinline>
+            <source src="nuevo.mp4" type="video/mp4">
+          <div class="video-title">Productos — Cúcuta</div>
         </div>
         <!-- VIDEO 3 -->
-        <div class="video-card">
-          <div class="video-placeholder"></div>
+        <div class="video-card vertical">
+          <video controls playiline>
+            <source src="verano.mp4" type="video/mp4">
           <div class="video-title">Drop limitado — Urban Series</div>
         </div>
       </div>
@@ -1019,7 +1047,8 @@
           <div class="info-icon">📍</div>
           <div class="info-text">
             <strong>Ubicación</strong>
-            <span>Cúcuta, Norte de Santander, Colombia<br>Centro Comercial — Local XX</span>
+            <span>Cúcuta, Norte de Santander, Colombia<br>Av. 1, Cl. 15 #0-97 Local 3, Br. Mariano Ospina Pérez, Cúcuta,
+              Norte de Santander</span>
           </div>
         </div>
 
@@ -1027,7 +1056,7 @@
           <div class="info-icon">📱</div>
           <div class="info-text">
             <strong>WhatsApp</strong>
-            <a href="https://wa.me/573113513671" target="_blank">+57 300 123 4567</a>
+            <a href="https://wa.me/573113513671" target="_blank">3113513671</a>
           </div>
         </div>
 
@@ -1035,7 +1064,7 @@
           <div class="info-icon">📸</div>
           <div class="info-text">
             <strong>Instagram</strong>
-            <a href="https://instagram.com/libardino_oficial" target="_blank">@libardino_oficial</a>
+            <a href="https://www.instagram.com/libardinocucutaa/" target="_blank">@libardinocucutaa</a>
           </div>
         </div>
 
@@ -1043,7 +1072,7 @@
           <div class="info-icon">🕐</div>
           <div class="info-text">
             <strong>Horario</strong>
-            <span>Lunes a Sábado: 9am – 8pm<br>Domingos: 10am – 6pm</span>
+            <span>Lunes a Sábado: 9am – 7pm<br>Domingos: 9am – 1pm</span>
           </div>
         </div>
 
@@ -1056,7 +1085,7 @@
       <div class="mapa-wrapper">
         <!-- Reemplaza con el embed de Google Maps de tu tienda real -->
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63400.85744506697!2d-72.56048!3d7.88321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e664f14a2460d99%3A0xb3e48e4e8f52da47!2sCúcuta%2C%20Norte%20de%20Santander!5e0!3m2!1ses!2sco!4v1700000000000"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.1!2d-72.5196973!3d7.9200064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e6645006746a935%3A0xd3690ac6dc84b7ac!2sLibardino%20Atalaya!5e0!3m2!1ses!2sco!4v1700000000000"
           allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
         </iframe>
       </div>
@@ -1068,10 +1097,10 @@
     <div class="footer-logo">LIBARDINO</div>
     <div class="footer-sub">Cúcuta · Hombre de Dios</div>
     <div class="social-links">
-      <a href="https://instagram.com/libardino_oficial" target="_blank" title="Instagram">ig</a>
-      <a href="https://tiktok.com/@libardino" target="_blank" title="TikTok">tt</a>
-      <a href="https://wa.me/573001234567" target="_blank" title="WhatsApp">ws</a>
-      <a href="https://facebook.com/libardino" target="_blank" title="Facebook">fb</a>
+      <a href="https://www.instagram.com/libardinocucutaa/" target="_blank" title="Instagram">ig</a>
+      <a href="https://www.tiktok.com/@libardinocucuta?lang=es-419" target="_blank" title="TikTok">tt</a>
+      <a href="https://wa.me/573113513671" target="_blank" title="WhatsApp">ws</a>
+      <a href="https://www.facebook.com/profile.php?id=61589933772410" target="_blank" title="Facebook">fb</a>
     </div>
     <p>© 2025 Libardino — Todos los derechos reservados. Cúcuta, Colombia.</p>
   </footer>
