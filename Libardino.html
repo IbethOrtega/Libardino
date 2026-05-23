@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Libardino — Cúcuta | Hombre de Dios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Han+Sans&family=Permanent+Marker&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --rojo: #CC0000;
+      --rojo-vivo: #FF1010;
+      --negro: #080808;
+      --blanco: #F5F5F5;
+      --gris: #1a1a1a;
+      --gris2: #2a2a2a;
+      --accent: #FF3030;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--negro);
+      color: var(--blanco);
+      font-family: 'Barlow Condensed', sans-serif;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .35;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(8, 8, 8, .92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(204, 0, 0, .25);
+      transition: padding .3s;
+    }
+
+    nav.scrolled {
+      padding: .6rem 2.5rem;
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      color: var(--rojo-vivo);
+      text-decoration: none;
+      text-shadow: 0 0 20px rgba(255, 48, 48, .5);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--blanco);
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      transition: color .2s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 0;
+      height: 2px;
+      background: var(--rojo-vivo);
+      transition: width .3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--rojo-vivo);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1100;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: var(--blanco);
+      transition: all .3s;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      padding: 6rem 2rem 4rem;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(180, 0, 0, .18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 20% 80%, rgba(255, 48, 48, .08) 0%, transparent 60%),
+        var(--negro);
+    }
+
+    /* animated grid lines */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(204, 0, 0, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(204, 0, 0, .06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(60px);
+      }
+    }
+
+    .hero-tag {
+      position: relative;
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: 6px;
+      color: var(--rojo-vivo);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp .7s .2s forwards;
+    }
+
+    .hero-title {
+      position: relative;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 15vw, 14rem);
+      line-height: .9;
+      letter-spacing: 4px;
+      color: var(--blanco);
+      text-shadow:
+        0 0 40px rgba(255, 16, 16, .3),
+        4px 4px 0 var(--rojo),
+        8px 8px 0 rgba(180, 0, 0, .4);
+      opacity: 0;
+      animation: fadeUp .7s .4s forwards;
+    }
+
+    .hero-sub {
+      position: relative;
+      font-size: clamp(1.2rem, 4vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: 10px;
+      color: var(--rojo-vivo);
+      text-transform: uppercase;
+      margin-top: .6rem;
+      opacity: 0;
+      animation: fadeUp .7s .6s forwards;
+    }
+
+    .hero-slogan {
+      position: relative;
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      color: rgba(245, 245, 245, .55);
+      margin-top: 1.8rem;
+      opacity: 0;
+      animation: fadeUp .7s .8s forwards;
+    }
+
+    .hero-cta {
+      position: relative;
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp .7s 1s forwards;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .8rem 2.2rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all .25s;
+    }
+
+    .btn-primary {
+      background: var(--rojo);
+      color: var(--blanco);
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+
+    .btn-primary:hover {
+      background: var(--rojo-vivo);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(255, 16, 16, .4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--blanco);
+      border: 2px solid rgba(245, 245, 245, .4);
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--rojo-vivo);
+      color: var(--rojo-vivo);
+      transform: translateY(-3px);
+    }
+
+    /* scrolling ticker */
+    .ticker-wrap {
+      width: 100%;
+      overflow: hidden;
+      background: var(--rojo);
+      padding: .5rem 0;
+      margin-top: 4rem;
+      position: relative;
+    }
+
+    .ticker {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 25s linear infinite;
+    }
+
+    .ticker span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.15rem;
+      letter-spacing: 4px;
+      padding: 0 2rem;
+      color: var(--negro);
+    }
+
+    @keyframes ticker {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── SECTIONS COMMON ── */
+    section {
+      padding: 6rem 2rem;
+    }
+
+    .section-label {
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: 6px;
+      color: var(--rojo-vivo);
+      text-transform: uppercase;
+      margin-bottom: .5rem;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      line-height: 1;
+      color: var(--blanco);
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title span {
+      color: var(--rojo-vivo);
+    }
+
+    /* ── BRAND STORY ── */
+    #historia {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .historia-text p {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: rgba(245, 245, 245, .75);
+      margin-bottom: 1.2rem;
+    }
+
+    .historia-text p strong {
+      color: var(--rojo-vivo);
+    }
+
+    .historia-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .big-letter {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(12rem, 20vw, 22rem);
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(204, 0, 0, .2);
+      line-height: 1;
+      user-select: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        -webkit-text-stroke-color: rgba(204, 0, 0, .2);
+      }
+
+      50% {
+        -webkit-text-stroke-color: rgba(255, 48, 48, .5);
+      }
+    }
+
+    .historia-badge {
+      position: absolute;
+      background: var(--rojo);
+      clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);
+      padding: .6rem 2.5rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 4px;
+    }
+
+    /* ── CATÁLOGO ── */
+    #catalogo {
+      background: var(--gris);
+    }
+
+    .catalogo-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: .8rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .filter-btn {
+      padding: .45rem 1.3rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid rgba(245, 245, 245, .2);
+      color: rgba(245, 245, 245, .6);
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--rojo);
+      border-color: var(--rojo);
+      color: var(--blanco);
+    }
+
+    .productos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .producto-card {
+      position: relative;
+      background: var(--gris2);
+      overflow: hidden;
+      cursor: pointer;
+      group: true;
+    }
+
+    .producto-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid transparent;
+      transition: border-color .3s;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .producto-card:hover::before {
+      border-color: var(--rojo-vivo);
+    }
+
+    .producto-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s, filter .5s;
+      background: #222;
+    }
+
+    .producto-card:hover .producto-img {
+      transform: scale(1.06);
+      filter: brightness(.7);
+    }
+
+    /* placeholder art for products */
+    .producto-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--gris2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 3px;
+      color: rgba(245, 245, 245, .2);
+      transition: transform .5s, filter .5s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .producto-placeholder::after {
+      content: 'L';
+      position: absolute;
+      font-size: 12rem;
+      color: rgba(204, 0, 0, .07);
+      font-family: 'Bebas Neue', sans-serif;
+    }
+
+    .producto-card:hover .producto-placeholder {
+      transform: scale(1.06);
+      filter: brightness(.7);
+    }
+
+    .producto-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.2rem;
+      background: linear-gradient(transparent, rgba(8, 8, 8, .95));
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all .3s;
+      z-index: 3;
+    }
+
+    .producto-card:hover .producto-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .producto-info {
+      padding: 1rem;
+    }
+
+    .producto-nombre {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .producto-precio {
+      color: var(--rojo-vivo);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: .3rem;
+    }
+
+    .producto-cat {
+      font-size: .8rem;
+      color: rgba(245, 245, 245, .4);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: .3rem;
+    }
+
+    .btn-wsp-card {
+      display: block;
+      background: #25D366;
+      color: #fff;
+      text-align: center;
+      padding: .6rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      font-size: .85rem;
+      text-decoration: none;
+      transition: background .2s;
+    }
+
+    .btn-wsp-card:hover {
+      background: #1ebe5b;
+    }
+
+    /* ── VIDEOS ── */
+    #videos {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .video-card {
+      position: relative;
+      background: var(--gris2);
+      overflow: hidden;
+    }
+
+    .video-card iframe,
+    .video-card video {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: block;
+      border: none;
+    }
+
+    .video-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--gris2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: rgba(245, 245, 245, .15);
+      position: relative;
+    }
+
+    .video-placeholder::before {
+      content: '▶';
+      font-size: 3rem;
+      color: rgba(204, 0, 0, .4);
+    }
+
+    .video-title {
+      padding: .8rem 1rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-size: .95rem;
+      text-transform: uppercase;
+    }
+
+    /* ── CONTACTO ── */
+    #contacto {
+      background: var(--gris);
+    }
+
+    .contacto-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contacto-info p {
+      font-size: 1.05rem;
+      color: rgba(245, 245, 245, .7);
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .info-icon {
+      font-size: 1.4rem;
+      color: var(--rojo-vivo);
+      flex-shrink: 0;
+      margin-top: .1rem;
+    }
+
+    .info-text strong {
+      display: block;
+      font-size: .8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(245, 245, 245, .4);
+      margin-bottom: .2rem;
+    }
+
+    .info-text span,
+    .info-text a {
+      font-size: 1.05rem;
+      color: var(--blanco);
+      text-decoration: none;
+    }
+
+    .info-text a:hover {
+      color: var(--rojo-vivo);
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: .7rem;
+      background: #25D366;
+      color: #fff;
+      padding: .9rem 2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: all .25s;
+      margin-top: 1rem;
+    }
+
+    .btn-whatsapp:hover {
+      background: #1ebe5b;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(37, 211, 102, .35);
+    }
+
+    .mapa-wrapper {
+      position: relative;
+    }
+
+    .mapa-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 2px solid var(--rojo);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .mapa-wrapper iframe {
+      width: 100%;
+      height: 320px;
+      border: none;
+      display: block;
+      filter: grayscale(1) invert(.9) contrast(.85);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--negro);
+      border-top: 1px solid rgba(204, 0, 0, .2);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--rojo-vivo);
+      letter-spacing: 6px;
+      text-shadow: 0 0 30px rgba(255, 48, 48, .3);
+      margin-bottom: .5rem;
+    }
+
+    .footer-sub {
+      font-size: .85rem;
+      letter-spacing: 5px;
+      color: rgba(245, 245, 245, .3);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .social-links a {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(245, 245, 245, .15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(245, 245, 245, .5);
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: all .2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--rojo-vivo);
+      color: var(--rojo-vivo);
+    }
+
+    footer p {
+      font-size: .8rem;
+      color: rgba(245, 245, 245, .25);
+      letter-spacing: 2px;
+    }
+
+    /* ── FLOATING WSP ── */
+    .fab-wsp {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 900;
+      width: 58px;
+      height: 58px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(37, 211, 102, .45);
+      animation: wsp-bounce 3s ease-in-out infinite;
+    }
+
+    @keyframes wsp-bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .7s, transform .7s;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE NAV ── */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 8, 8, .97);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        z-index: 1050;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        font-size: 1.8rem;
+      }
+
+      #historia {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .historia-visual {
+        display: none;
+      }
+
+      .contacto-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- FLOATING WHATSAPP -->
+  <a class="fab-wsp"
+    href="https://wa.me/573113513671?text=Hola%20Libardino%2C%20quiero%20info%20sobre%20sus%20productos%20%F0%9F%94%A5"
+    target="_blank" title="WhatsApp">💬</a>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#hero">LIBARDINO</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#historia" onclick="closeMenu()">Nosotros</a></li>
+      <li><a href="#catalogo" onclick="closeMenu()">Catálogo</a></li>
+      <li><a href="#videos" onclick="closeMenu()">Videos</a></li>
+      <li><a href="#contacto" onclick="closeMenu()">Contacto</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-tag">Cúcuta · Colombia · Desde las calles</div>
+    <h1 class="hero-title">LIBARDINO</h1>
+    <div class="hero-sub">Hombre de Dios</div>
+    <p class="hero-slogan">Ropa urbana con alma. Del barrio pa' el mundo.</p>
+    <div class="hero-cta">
+      <a href="#catalogo" class="btn btn-primary">Ver Catálogo</a>
+      <a href="#contacto" class="btn btn-outline">Contáctanos</a>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span>LIBARDINO</span><span>✦</span>
+      <span>CÚCUTA</span><span>✦</span>
+      <span>HOMBRE DE DIOS</span><span>✦</span>
+      <span>ROPA URBANA</span><span>✦</span>
+      <span>FLOW DE CALLE</span><span>✦</span>
+      <span>COLOMBIA</span><span>✦</span>
+      <span>LIBARDINO</span><span>✦</span>
+      <span>CÚCUTA</span><span>✦</span>
+      <span>HOMBRE DE DIOS</span><span>✦</span>
+      <span>ROPA URBANA</span><span>✦</span>
+      <span>FLOW DE CALLE</span><span>✦</span>
+      <span>COLOMBIA</span><span>✦</span>
+    </div>
+  </div>
+
+  <!-- HISTORIA -->
+  <section>
+    <div id="historia" class="reveal">
+      <div class="historia-text">
+        <div class="section-label">Nuestra historia</div>
+        <h2 class="section-title">Nació en la <span>calle</span>,<br>vive en la gente</h2>
+        <p>
+          <strong>Libardino</strong> no es solo ropa. Es identidad. Es el barrio que te formó, la esquina donde
+          creciste, el orgullo que llevas en el pecho. Nacimos en Cúcuta con una visión clara: llevar el estilo urbano
+          colombiano al nivel que se merece.
+        </p>
+        <p>
+          Cada prenda está diseñada con <strong>flow auténtico</strong> — cortes precisos, telas premium, gráficos que
+          hablan sin decir una palabra. De Norte de Santander para toda Colombia.
+        </p>
+        <p>
+          Somos <strong>Hombre de Dios</strong>. Con fe, con estilo, con calle.
+        </p>
+        <a href="#catalogo" class="btn btn-primary" style="margin-top:1rem;">Explorar la colección</a>
+      </div>
+      <div class="historia-visual">
+        <div class="big-letter">L</div>
+        <div class="historia-badge">CÚCUTA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATÁLOGO -->
+  <section id="catalogo">
+    <div class="catalogo-inner reveal">
+      <div class="section-label">Catálogo</div>
+      <h2 class="section-title">La <span>colección</span></h2>
+
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filtrar('todos', this)">Todos</button>
+        <button class="filter-btn" onclick="filtrar('camisetas', this)">Camisetas</button>
+        <button class="filter-btn" onclick="filtrar('pantalonetas', this)">Pantalonetas</button>
+        <button class="filter-btn" onclick="filtrar('hoodies', this)">Hoodies</button>
+        <button class="filter-btn" onclick="filtrar('gorras', this)">Gorras</button>
+        <button class="filter-btn" onclick="filtrar('accesorios', this)">Accesorios</button>
+      </div>
+
+      <div class="productos-grid" id="productosGrid">
+        <!-- Se generan por JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section>
+    <div id="videos" class="reveal">
+      <div class="section-label">Contenido</div>
+      <h2 class="section-title">Vívelo en <span>video</span></h2>
+      <div class="videos-grid">
+        <!-- VIDEO 1: reemplaza el src con tu link de YouTube embed -->
+        <div class="video-card">
+          <div class="video-placeholder" title="Agrega aquí tu video de YouTube">
+            <!-- <iframe src="https://www.youtube.com/embed/TU_VIDEO_ID" allowfullscreen></iframe> -->
+          </div>
+          <div class="video-title">Colección Primavera 2025</div>
+        </div>
+        <!-- VIDEO 2 -->
+        <div class="video-card">
+          <div class="video-placeholder"></div>
+          <div class="video-title">Behind the scenes — Cúcuta</div>
+        </div>
+        <!-- VIDEO 3 -->
+        <div class="video-card">
+          <div class="video-placeholder"></div>
+          <div class="video-title">Drop limitado — Urban Series</div>
+        </div>
+      </div>
+      <p style="margin-top:1.5rem;font-size:.9rem;color:rgba(245,245,245,.35);letter-spacing:2px;">
+        💡 Para agregar videos: reemplaza el <code
+          style="color:var(--rojo-vivo)">&lt;div class="video-placeholder"&gt;</code> por un <code
+          style="color:var(--rojo-vivo)">&lt;iframe&gt;</code> con tu URL de YouTube.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="contacto-inner reveal">
+      <div class="contacto-info">
+        <div class="section-label">Encuéntranos</div>
+        <h2 class="section-title">Habla con <span>nosotros</span></h2>
+
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div class="info-text">
+            <strong>Ubicación</strong>
+            <span>Cúcuta, Norte de Santander, Colombia<br>Centro Comercial — Local XX</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">📱</div>
+          <div class="info-text">
+            <strong>WhatsApp</strong>
+            <a href="https://wa.me/573113513671" target="_blank">+57 300 123 4567</a>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">📸</div>
+          <div class="info-text">
+            <strong>Instagram</strong>
+            <a href="https://instagram.com/libardino_oficial" target="_blank">@libardino_oficial</a>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">🕐</div>
+          <div class="info-text">
+            <strong>Horario</strong>
+            <span>Lunes a Sábado: 9am – 8pm<br>Domingos: 10am – 6pm</span>
+          </div>
+        </div>
+
+        <a class="btn-whatsapp"
+          href="https://wa.me/573113513671?text=Hola%20Libardino%2C%20quiero%20info%20%F0%9F%94%A5" target="_blank">
+          💬 &nbsp;Escribir por WhatsApp
+        </a>
+      </div>
+
+      <div class="mapa-wrapper">
+        <!-- Reemplaza con el embed de Google Maps de tu tienda real -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63400.85744506697!2d-72.56048!3d7.88321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e664f14a2460d99%3A0xb3e48e4e8f52da47!2sCúcuta%2C%20Norte%20de%20Santander!5e0!3m2!1ses!2sco!4v1700000000000"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">LIBARDINO</div>
+    <div class="footer-sub">Cúcuta · Hombre de Dios</div>
+    <div class="social-links">
+      <a href="https://instagram.com/libardino_oficial" target="_blank" title="Instagram">ig</a>
+      <a href="https://tiktok.com/@libardino" target="_blank" title="TikTok">tt</a>
+      <a href="https://wa.me/573001234567" target="_blank" title="WhatsApp">ws</a>
+      <a href="https://facebook.com/libardino" target="_blank" title="Facebook">fb</a>
+    </div>
+    <p>© 2025 Libardino — Todos los derechos reservados. Cúcuta, Colombia.</p>
+  </footer>
+
+  <script>
+    // ── Productos de muestra (reemplaza con tus fotos e info real) ──
+    const productos = [
+      { nombre: "CAMISA OVERSIZE CAFE REPUJADA", precio: "$85.000", categoria: "camisetas", imagen: "caferepujada.webp", color: "#1a1a1a" },
+      { nombre: "Camisa Oversize Gorra Rosada", precio: "$125.000", categoria: "camisetas", imagen: "gorrarosada.webp", color: "#111" },
+      { nombre: "CAMISA OVERSIZE LIBARDINO BEIGE", precio: "$95.000", categoria: "camisatas", imagen: "libardinobeige.webp", color: "#1c1c1c" },
+      { nombre: "CAMISETA PREMIUN NEGRA", precio: "$85.000", categoria: "camisetas", imagen: "premiumnegra.webp", color: "#1a1a1a" },
+      { nombre: "Pantaloneta Premium Over Negra", precio: "$70.000", categoria: "pantalonetas", imagen: "ppremiumnegra.webp", color: "#111" },
+      { nombre: "Pantaloneta Premium Ak Negra", precio: "$70.000", categoria: "pantalonetas", imagen: "aknegra.webp", color: "#191919" },
+      { nombre: "Camiseta Street Flag", precio: "$80.000", categoria: "camisetas", color: "#1a1a1a" },
+      { nombre: "Gorra Dad Hat Roja", precio: "$60.000", categoria: "gorras", color: "#1c1c1c" },
+    ];
+
+    function renderProductos(lista) {
+      const grid = document.getElementById('productosGrid');
+      grid.innerHTML = lista.map(p => `
+      <div class="producto-card" data-cat="${p.categoria}">
+        ${p.imagen
+          ? `<img class="producto-img" src="${p.imagen}" alt="${p.nombre}" loading="lazy" />`
+          : `<div class="producto-placeholder" style="background:${p.color}"></div>`
+        }
+        <div class="producto-overlay">
+          <a class="btn-wsp-card" href="https://wa.me/573113513671?text=Hola%2C%20me%20interesa%3A%20${encodeURIComponent(p.nombre)}" target="_blank">
+            💬 Pedir por WhatsApp
+          </a>
+        </div>
+        <div class="producto-info">
+          <div class="producto-cat">${p.categoria}</div>
+          <div class="producto-nombre">${p.nombre}</div>
+          <div class="producto-precio">${p.precio}</div>
+        </div>
+      </div>
+    `).join('');
+    }
+
+    renderProductos(productos);
+
+    function filtrar(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const lista = cat === 'todos' ? productos : productos.filter(p => p.categoria === cat);
+      renderProductos(lista);
+    }
+
+    // ── Navbar scroll ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── Hamburger ──
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('navLinks').classList.remove('open');
+    }
+
+    // ── Scroll reveal ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => observer.observe(r));
+  </script>
+</body>
+
+</html>
